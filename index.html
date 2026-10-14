@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio Fidel — Junior Network & Cybersecurity Enthusiast, SMK Informatika Al-Irsyad Cirebon (TJKT).">
+<title>Fidel — Portfolio & CLI Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg: #05070b;
+  --panel: rgba(13, 22, 40, 0.65);
+  --panel-hover: rgba(16, 28, 52, 0.85);
+  --line: rgba(59, 130, 246, 0.16);
+  --line-active: rgba(96, 165, 250, 0.45);
+  --text: #f1f5f9;
+  --mut: #94a3b8;
+  --dim: #64748b;
+  --blue: #2563eb;
+  --blue-s: #60a5fa;
+  --blue-glow: rgba(37, 99, 235, 0.28);
+  --green: #34d399;
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image: 
+    linear-gradient(to right, rgba(59,130,246,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59,130,246,0.035) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.bg-glow-spread {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 85% 65%, rgba(14, 165, 233, 0.12) 0%, transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+  filter: blur(85px);
+}
+
+.orb {
+  position: fixed;
+  top: -100px;
+  left: 20%;
+  width: 600px;
+  height: 600px;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(37,99,235,0.18), transparent 70%);
+  animation: floatOrb 18s ease-in-out infinite alternate;
+}
+@keyframes floatOrb {
+  0% { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(60px, 80px) scale(1.15); }
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #2563eb, #38bdf8, #60a5fa);
+  z-index: 100;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+  transition: width 0.1s ease-out;
+}
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
+section { scroll-margin-top: 85px; padding: clamp(60px, 9vw, 95px) 0; border-top: 1px solid var(--line); }
+#home { border-top: 0; padding-top: clamp(100px, 15vw, 140px); }
+.mono { font-family: var(--mono); }
+
+@keyframes slideDownHeader {
+  from { opacity: 0; transform: translateY(-25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(5, 7, 11, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  animation: slideDownHeader 0.8s var(--ease) forwards;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #93c5fd;
+  box-shadow: 0 0 15px rgba(37,99,235,0.4);
+}
+
+.links { display: flex; gap: 8px; align-items: center; }
+.links a {
+  font-size: 0.85rem;
+  color: var(--mut);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 99px;
+  transition: all 0.25s var(--ease);
+}
+.links a:hover, .links a.active {
+  color: #fff;
+  background: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.btn-header {
+  padding: 8px 18px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  box-shadow: 0 4px 14px var(--blue-glow);
+  transition: all 0.3s var(--ease);
+}
+.btn-header:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+@media(max-width: 820px) { .links { display: none; } }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+@media(min-width: 900px) { .hero-grid { grid-template-columns: 1.25fr 0.85fr; gap: 50px; } }
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  font: 600 0.74rem var(--mono);
+  color: var(--blue-s);
+  background: rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 99px;
+  margin-bottom: 18px;
+}
+.badge-tag .pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+h1 {
+  font-size: clamp(2.3rem, 5.2vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.typewriter-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: var(--mono);
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  color: var(--blue-s);
+  margin-bottom: 20px;
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: var(--blue-s);
+  margin-left: 3px;
+  animation: blink 0.9s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.sub {
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  color: var(--mut);
+  line-height: 1.65;
+  margin-bottom: 30px;
+}
+.sub b { color: var(--text); font-weight: 600; }
+
+.btns { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font: 600 0.88rem var(--sans);
+  color: #fff;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
+}
+.btn:hover {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(96, 165, 250, 0.5);
+  transform: translateY(-3px);
+}
+.btn.pri {
+  background: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 6px 20px var(--blue-glow);
+}
+.btn.pri:hover {
+  background: #1d4ed8;
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+@media(max-width: 600px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+.stat-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+.stat-item h3 { font-family: var(--mono); font-size: 1.35rem; font-weight: 800; color: var(--blue-s); }
+.stat-item p { font-size: 0.72rem; color: var(--dim); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+
+.photo-card-wrap {
+  position: relative;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.photo-frame {
+  position: relative;
+  background: rgba(13, 22, 40, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+  overflow: hidden;
+}
+.corner { position: absolute; width: 18px; height: 18px; border-color: var(--blue-s); border-style: solid; pointer-events: none; z-index: 2; }
+.corner.tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+.corner.tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+.corner.bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+.corner.br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+.frame-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  font: 500 0.74rem var(--mono);
+  color: var(--mut);
+}
+.dots { display: flex; gap: 6px; }
+.dots span { width: 9px; height: 9px; border-radius: 50%; }
+.dots span:nth-child(1) { background: #f43f5e; }
+.dots span:nth-child(2) { background: #f59e0b; }
+.dots span:nth-child(3) { background: #10b981; }
+
+.avatar-inner {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #091224 0%, #050914 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+.avatar-badge-icon {
+  width: 100%;
+  height: 220px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1d4ed8, #0284c7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 16px;
+  box-shadow: 0 0 35px rgba(37,99,235,0.3);
+}
+.avatar-badge-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  position: relative;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), border-color 0.3s, box-shadow 0.4s var(--ease), background 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--line-active);
+  background: var(--panel-hover);
+  box-shadow: 0 20px 40px -10px rgba(37,99,235,0.22);
+}
+
+.head { margin-bottom: 36px; }
+.num { font: 600 0.74rem var(--mono); color: var(--blue-s); letter-spacing: 0.1em; margin-bottom: 6px; }
+h2 { font-size: clamp(1.6rem, 3.8vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; }
+.head p { font-size: 0.9rem; color: var(--mut); margin-top: 6px; }
+
+.grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); }
+.stack { display: grid; gap: 16px; }
+
+.skill-row {
+  display: grid;
+  gap: 16px;
+  padding: 22px 26px;
+}
+@media(min-width: 768px) {
+  .skill-row { grid-template-columns: 240px 1fr; align-items: center; }
+}
+.skill-row h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.tag { font: 600 0.72rem var(--mono); color: var(--blue-s); text-transform: uppercase; display: block; margin-bottom: 4px; }
+.lv { display: inline-block; font: 500 0.72rem var(--mono); color: var(--green); background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25); padding: 2px 8px; border-radius: 6px; margin-top: 6px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip {
+  padding: 4px 10px;
+  font: 500 0.72rem var(--mono);
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  transition: all 0.25s var(--ease);
+}
+.chip:hover {
+  color: #fff;
+  border-color: var(--blue-s);
+  background: rgba(37,99,235,0.2);
+  transform: translateY(-2px);
+}
+
+.proj { display: flex; flex-direction: column; justify-content: space-between; }
+.proj-pad { padding: 22px; }
+.proj h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff; line-height: 1.35; }
+.proj p.d { font-size: 0.86rem; color: var(--mut); line-height: 1.6; }
+.acts { display: flex; gap: 10px; padding: 0 22px 22px; }
+.acts .btn { flex: 1; padding: 9px 14px; font-size: 0.8rem; border-radius: 12px; }
+
+.term { background: #04070e; border: 1px solid rgba(59, 130, 246, 0.22); }
+.term-chrome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #090e1a;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  font: 500 0.75rem var(--mono);
+}
+.term-body {
+  height: 380px;
+  overflow-y: auto;
+  padding: 18px 20px;
+  font: 400 0.82rem/1.7 var(--mono);
+  color: #cbd5e1;
+  user-select: text;
+}
+.term-body div, .term-body pre { white-space: pre-wrap; font-family: inherit; margin-bottom: 6px; }
+.term-body .c { color: var(--green); font-weight: 600; }
+.term-body .e { color: #fb7185; }
+.term-body .h { color: var(--blue-s); }
+.term-body .s { color: #38bdf8; }
+
+.term-in {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 18px;
+  background: #060a14;
+  border-top: 1px solid rgba(59, 130, 246, 0.15);
+  font: 500 0.82rem var(--mono);
+}
+.term-in span { color: var(--green); font-weight: 700; }
+.term-in input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font: inherit;
+}
+.term-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.term-preset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(13, 22, 40, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: var(--blue-s);
+  font: 500 0.72rem var(--mono);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.term-preset-btn:hover { background: rgba(37, 99, 235, 0.2); border-color: var(--blue-s); color: #fff; }
+
+.cwrap { display: grid; gap: 20px; }
+@media(min-width: 860px) { .cwrap { grid-template-columns: 5fr 7fr; } }
+.clist { display: grid; gap: 14px; }
+.clink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  text-decoration: none;
+  color: inherit;
+}
+.clink .ic {
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(9, 14, 26, 0.8);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-s);
+  transition: all 0.3s;
+}
+.clink:hover .ic { background: var(--blue); color: #fff; transform: scale(1.05); }
+
+.cform { padding: clamp(22px, 4vw, 32px); display: grid; gap: 16px; }
+.f2 { display: grid; gap: 16px; }
+@media(min-width: 520px) { .f2 { grid-template-columns: 1fr 1fr; } }
+.cform label { display: grid; gap: 6px; font-size: 0.82rem; font-family: var(--mono); color: var(--mut); }
+.cform input, .cform textarea {
+  width: 100%;
+  background: #04070e;
+  color: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font: 400 0.9rem var(--sans);
+  transition: all 0.25s;
+}
+.cform input:focus, .cform textarea:focus {
+  outline: none;
+  border-color: var(--blue-s);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+}
+
+dialog {
+  margin: auto;
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100vh - 40px);
+  background: #090f1f;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 20px;
+  color: var(--text);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.85);
+  overflow: auto;
+}
+dialog::backdrop { background: rgba(3, 5, 9, 0.8); backdrop-filter: blur(6px); }
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: #0a1122;
+  border-bottom: 1px solid rgba(59,130,246,0.15);
+}
+.modal-body { padding: 24px; }
+.modal-body h4 { font: 600 0.75rem var(--mono); color: var(--blue-s); margin: 20px 0 10px; text-transform: uppercase; }
+.modal-body ul { padding-left: 20px; font-size: 0.88rem; color: var(--mut); }
+.modal-body li { margin-bottom: 8px; }
+
+.rv {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  will-change: opacity, transform;
+}
+.rv.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+footer {
+  padding: 36px 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font: 400 0.8rem var(--mono);
+  color: var(--dim);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow-spread" aria-hidden="true"></div>
+<div class="orb" aria-hidden="true"></div>
+<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+<!-- Header / Navigation Bar -->
+<nav><div class="wrap">
+  <a class="brand" href="#home">
+    <div class="brand-icon"><i class="fa-solid fa-terminal"></i></div>
+    <span>Fidel</span>
+  </a>
+  <div class="links">
+    <a href="#about">Tentang</a>
+    <a href="#skills">Kemampuan</a>
+    <a href="#projects">Proyek Saya</a>
+    <a href="#certs">Sertifikat</a>
+    <a href="#terminal">CLI Lab</a>
+    <a href="#contact">Kontak</a>
+  </div>
+  <a class="btn-header" href="#contact">Hubungi Saya</a>
+</div></nav>
+
+<main>
+
+<!-- Hero Section -->
+<section id="home"><div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="badge-tag">
+        <span class="pulse"></span>
+        <span>PORTFOLIO V1.0</span>
+      </div>
+      
+      <h1>Halo, Saya <br><span class="gradient-text">Mochamad Rizky</span><br>Fidel Purnama</h1>
+
+      <!-- Dynamic Typewriter Animation -->
+      <div class="typewriter-box">
+        <span style="color:var(--green); font-weight:700;">&gt;</span>
+        <span id="roleTypewriter"></span><span class="cursor"></span>
+      </div>
+
+      <p class="sub">
+        Saya adalah seorang <b>Junior Network &amp; Cybersecurity Enthusiast</b>, fokus pada eksplorasi jaringan Cisco, administrasi Linux, dan keamanan siber (Red Team).
+      </p>
+
+      <div class="btns">
+        <a class="btn pri" href="#projects">Proyek Saya <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn" href="#terminal"><i class="fa-solid fa-terminal" style="color:var(--blue-s)"></i> Buka CLI Lab</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item"><h3>2+</h3><p>Tahun Belajar</p></div>
+        <div class="stat-item"><h3>10+</h3><p>Lab Virtual</p></div>
+        <div class="stat-item"><h3>8+</h3><p>Sertifikasi</p></div>
+        <div class="stat-item"><h3>100%</h3><p>Hands-on Lab</p></div>
+      </div>
+    </div>
+
+    <!-- Cyber Avatar & Identity Frame (logo1.jpeg) -->
+    <div class="photo-card-wrap">
+      <div class="photo-frame">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="frame-top-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span>fidel@cyber-host: ~</span>
+        </div>
+        <div class="avatar-inner">
+          <div class="avatar-badge-icon">
+            <img src="logo1.jpeg" alt="Mochamad Rizky Fidel Purnama" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534972195531-d756b9cfa9f2?auto=format&fit=crop&w=600&q=80';">
+          </div>
+          <h3 style="font-weight:700; font-size:1.15rem; color:#fff; margin-top:10px;">M. Rizky Fidel Purnama</h3>
+          <p class="mono" style="font-size:0.75rem; color:var(--blue-s); margin-top:4px;">SMK Informatika Al-Irsyad (TJKT)</p>
+          <div class="chips" style="justify-content:center; margin-top:12px;">
+            <span class="chip">Cisco 802.1Q</span>
+            <span class="chip">CentOS 7</span>
+            <span class="chip">Red Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- About Section -->
+<section id="about"><div class="wrap">
+  <div class="head rv">
+    <div class="num">01 / TENTANG SAYA</div>
+    <h2>Profil &amp; Dedikasi</h2>
+    <p>Belajar melalui eksperimen langsung di lab virtual tertutup untuk menguji skenario nyata.</p>
+  </div>
+  <div class="card rv" style="padding:clamp(24px, 4vw, 36px);">
+    <p style="color:var(--text); font-size:1rem; margin-bottom:14px; line-height:1.7;">
+      Halo! Saya Mochamad Rizky Fidel Purnama, biasa dipanggil <b>Fidel</b>. Saya siswa jurusan Teknik Jaringan Komputer dan Telekomunikasi (TJKT) di SMK Informatika Al-Irsyad Al-Islamiyyah Cirebon yang memiliki antusiasme mendalam pada arsitektur jaringan dan keamanan informasi.
+    </p>
+    <p style="color:var(--mut); font-size:0.92rem; line-height:1.7;">
+      Saya terbiasa mempraktikkan routing &amp; switching di Cisco Packet Tracer (VLAN, Trunking 802.1Q, Subnetting VLSM), administrasi server Linux headless, shell scripting Bash &amp; Python, hingga analisis paket TCP/IP dan simulasi penetrasi etis di sandbox terisolasi. Selain lab teknis, saya aktif sebagai pengurus OSIS bidang keagamaan serta meraih Juara 2 Musabaqah Syarhil Quran (MSQ) tingkat kelurahan.
+    </p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:18px; margin-top:26px; padding-top:22px; border-top:1px solid var(--line);" id="infoGrid"></div>
+  </div>
+</div></section>
+
+<!-- Skills Section -->
+<section id="skills"><div class="wrap">
+  <div class="head rv">
+    <div class="num">02 / KEMAMPUAN</div>
+    <h2>Skills &amp; Tech Stack</h2>
+    <p>Perangkat lunak dan bidang kompetensi yang paling sering saya gunakan.</p>
+  </div>
+  <div class="stack" id="skillsContainer"></div>
+</div></section>
+
+<!-- Projects Section -->
+<section id="projects"><div class="wrap">
+  <div class="head rv">
+    <div class="num">03 / PROYEK LABORATORIUM</div>
+    <h2>Proyek Saya</h2>
+    <p>Klik tombol detail untuk membuka ringkasan spesifikasi arsitektur proyek.</p>
+  </div>
+  <div class="grid" id="projectsContainer"></div>
+</div></section>
+
+<!-- Certifications Section -->
+<section id="certs"><div class="wrap">
+  <div class="head rv">
+    <div class="num">04 / SERTIFIKASI</div>
+    <h2>Sertifikat &amp; Pencapaian</h2>
+  </div>
+  <div class="stack" id="certsContainer"></div>
+</div></section>
+
+<!-- Command Line Interface Section -->
+<section id="terminal"><div class="wrap">
+  <div class="head rv">
+    <div class="num">05 / CLI LAB INTERAKTIF</div>
+    <h2>Command Line Interface</h2>
+    <p>Klik tombol preset perintah di bawah untuk melihat animasi pengetikan otomatis atau ketik langsung.</p>
+  </div>
+
+  <div class="term-presets rv" id="termPresets"></div>
+
+  <div class="card term rv" id="terminalFrame">
+    <div class="term-chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span>fidel@cyber-lab:~ (zsh)</span>
+      <button type="button" id="clearBtn" style="background:none; border:none; color:var(--dim); cursor:pointer; font:inherit;">Clear</button>
+    </div>
+    <div class="term-body" id="termOutput"></div>
+    <form class="term-in" id="termForm">
+      <span>fidel@lab:~$</span>
+      <input type="text" id="termInput" placeholder="Ketik perintah (contoh: help, ping, skills)..." autocomplete="off" spellcheck="false">
+    </form>
+  </div>
+</div></section>
+
+<!-- Contact Section -->
+<section id="contact"><div class="wrap">
+  <div class="head rv">
+    <div class="num">06 / KONTAK</div>
+    <h2>Hubungi Saya</h2>
+    <p>Terbuka untuk diskusi teknis, kolaborasi proyek, atau peluang magang.</p>
+  </div>
+  <div class="cwrap">
+    <div class="clist">
+      <a class="card clink rv" href="https://github.com/fidelpurn-cloud" target="_blank" rel="noopener">
+        <div class="ic"><i class="fa-brands fa-github"></i></div>
+        <div><strong>GitHub</strong><span class="mono" style="display:block; font-size:0.75rem; color:var(--mut);">fidelpurn-cloud</span></div>
+      </a>
+      <a class="card clink rv" href="https://instagram.com/fidpurn2023_" target="_blank" rel="noopener">
+        <div class="ic"><i class="fa-brands fa-instagram"></i></div>
+        <div><strong>Instagram</strong><span class="mono" style="display:block; font-size:0.75rem; color:var(--mut);">@fidpurn2023_</span></div>
+      </a>
+      <a class="card clink rv" href="mailto:fidelpurnama001@gmail.com">
+        <div class="ic"><i class="fa-solid fa-envelope"></i></div>
+        <div><strong>Email</strong><span class="mono" style="display:block; font-size:0.75rem; color:var(--mut);">fidelpurnama001@gmail.com</span></div>
+      </a>
+    </div>
+
+    <form class="card cform rv" id="msgForm">
+      <div class="f2">
+        <label>Nama Anda *<input id="formName" placeholder="Nama Lengkap" required></label>
+        <label>Email Anda (Opsional)<input id="formEmail" type="email" placeholder="email@instansi.com"></label>
+      </div>
+      <label>Pesan *<textarea id="formMsg" rows="4" placeholder="Tuliskan pesan Anda di sini..." required></textarea></label>
+      <button class="btn pri" type="submit" style="width:100%; border-radius:12px;"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan Email</button>
+      <p id="formFeedback" class="mono" style="font-size:0.78rem; color:var(--mut);"></p>
+    </form>
+  </div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">&copy; 2026 Mochamad Rizky Fidel Purnama · Cirebon, Jawa Barat.</div></footer>
+
+<dialog id="projModal">
+  <div class="modal-head">
+    <div><span class="tag" id="modalCategory">Kategori</span><h3 id="modalTitle" style="font-size:1.15rem; font-weight:700;">Judul Proyek</h3></div>
+    <button type="button" id="modalClose" style="background:none; border:none; color:var(--mut); font-size:1.2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="modal-body">
+    <p id="modalDesc" style="font-size:0.88rem; color:var(--mut); line-height:1.6;"></p>
+    <h4>Highlight Arsitektur &amp; Konfigurasi</h4>
+    <ul id="modalHighlights"></ul>
+    <h4>Perangkat / Teknologi</h4>
+    <div class="chips" id="modalTech"></div>
+    <div style="margin-top:24px;">
+      <a class="btn pri" id="modalRepoBtn" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Buka Repository GitHub</a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const DATA = {
+  roles: [
+    "Junior Network & Cybersecurity Enthusiast",
+    "Cisco Routing & Switching Specialist",
+    "Linux Server & Sysadmin Explorer",
+    "Red Team & Ethical Hacking Student"
+  ],
+  info: [
+    ["Sekolah", "SMK Informatika Al-Irsyad Cirebon"],
+    ["Jurusan", "Teknik Jaringan Komputer (TJKT)"],
+    ["Domisili", "Cirebon, Jawa Barat"],
+    ["Status", "Pelajar SMK & Lab Explorer"]
+  ],
+  skills: [
+    { cat: "Jaringan", title: "Routing & Switching Enterprise", desc: "Topologi VLAN, Trunking 802.1Q, Inter-VLAN Routing Router-on-a-Stick, dan Subnetting VLSM/CIDR.", tools: ["Cisco Packet Tracer", "IEEE 802.1Q", "Subnetting VLSM", "Trunking"], lv: "Fokus Utama" },
+    { cat: "Sistem Operasi", title: "Linux System Administration", desc: "Instalasi server headless, konfigurasi user sudoers, daemon systemd, SSH hardening, dan network manager.", tools: ["Parrot Security OS", "CentOS 7", "Ubuntu Server", "Bash"], lv: "Tingkat Lanjut" },
+    { cat: "Keamanan", title: "Ethical Hacking & Reconnaissance", desc: "Host scanning, banner fingerprinting, pengujian kerentanan lab, serta inspeksi frame 3-way handshake.", tools: ["Nmap", "Metasploit", "Burp Suite", "Wireshark"], lv: "Eksplorasi Aktif" },
+    { cat: "Virtualisasi", title: "Virtual Sandbox Hypervisor", desc: "Penyusunan environment lab tertutup terisolasi host-only untuk simulasi serangan siber yang aman.", tools: ["Oracle VirtualBox", "Virt-Manager / KVM", "Host-Only Net"], lv: "Praktik Rutin" },
+    { cat: "Skrip & Alat", title: "Automasi & Version Control", desc: "Skrip Python sederhana, shell Bash, navigasi CLI, dan version control repository.", tools: ["Python 3", "Bash Script", "Git & GitHub", "VS Code"], lv: "Harian" }
+  ],
+  projects: [
+    {
+      cat: "Cisco Networking",
+      title: "Simulasi Jaringan VLAN & Inter-VLAN Routing",
+      summary: "Segmentasi jaringan korporat menjadi 3 divisi terpisah dengan routing Router-on-a-Stick dan alokasi subnet VLSM.",
+      tech: ["Cisco Packet Tracer", "IEEE 802.1Q", "Sub-Interface", "Trunking", "VLSM"],
+      repo: "https://github.com/fidelpurn-cloud/cisco-vlan-routing-project",
+      hl: [
+        "Segmentasi VLAN 10 (Finance), VLAN 20 (Engineering), dan VLAN 30 (Admin).",
+        "Konfigurasi Trunk 802.1Q antara Cisco Catalyst Switch dan Router 2911.",
+        "Pembuatan sub-interface (Fa0/0.10, Fa0/0.20, Fa0/0.30) sebagai default gateway tiap segmen.",
+        "Uji konektivitas ping antar segmen dengan response time optimal tanpa packet loss."
+      ]
+    },
+    {
+      cat: "Linux Administration",
+      title: "Konfigurasi & Hardening Server CentOS 7",
+      summary: "Setup server headless dengan IP statis, manajemen user wheel sudo, dan pengamanan daemon SSH.",
+      tech: ["CentOS 7", "KVM / Virt-Manager", "Systemd", "nmcli", "Firewalld"],
+      repo: "https://github.com/fidelpurn-cloud",
+      hl: [
+        "Pembatasan akses root login langsung melalui konfigurasi sshd_config.",
+        "Pemberian privilege terbatas via grup wheel dan custom sudoers.",
+        "Konfigurasi adapter jaringan statis serta custom DNS resolver via nmcli.",
+        "Audit status daemon aktif menggunakan systemctl dan penataan Firewalld."
+      ]
+    },
+    {
+      cat: "Cybersecurity Lab",
+      title: "Simulasi Lab Pentest & Analisis Paket Jaringan",
+      summary: "Pengujian penetrasi etis di jaringan virtual terisolasi host-only dan analisis mendalam struktur frame TCP di Wireshark.",
+      tech: ["Parrot Security OS", "Metasploit", "Wireshark", "KVM", "Nmap"],
+      repo: "https://github.com/fidelpurn-cloud",
+      hl: [
+        "Simulasi murni di lab virtual tertutup (air-gapped sandbox) tanpa sambungan publik.",
+        "Scanning menggunakan flag SYN Stealth Scan Nmap untuk profiling port aktif.",
+        "Analisis filter TCP SYN / SYN-ACK / ACK di Wireshark saat handshake 3 arah terjadi.",
+        "Penyusunan dokumentasi rekomendasi perbaikan konfigurasi firewall."
+      ]
+    }
+  ],
+  certs: [
+    { group: "Jaringan & Infrastruktur", items: ["Networking Basics (1 & 2) — Cisco Networking Academy (2026)", "Cisco Dasar — ID-Networkers (IDN) (2026)"] },
+    { group: "Teknologi & Pemrograman", items: ["Memulai Pemrograman dengan Python — Dicoding Academy (2026)", "Program Paham AI (Literasi AI) — Literasi Kecerdasan Artifisial (2026)"] },
+    { group: "Bahasa & Prestasi", items: ["English Training & Competency Test (2024 - 2025)", "Juara 2 Cabang MSQ – Tingkat Kelurahan (2025)", "Pengurus OSIS Bidang Keagamaan — SMK Informatika Al-Irsyad (2023 - 2024)"] }
+  ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('infoGrid').innerHTML = DATA.info.map(i => `
+    <div>
+      <span class="mono" style="font-size:0.72rem; color:var(--blue-s); display:block; margin-bottom:2px;">${i[0]}</span>
+      <strong style="font-size:0.9rem; color:#fff;">${i[1]}</strong>
+    </div>
+  `).join('');
+
+  document.getElementById('skillsContainer').innerHTML = DATA.skills.map(s => `
+    <div class="card skill-row rv">
+      <div>
+        <span class="tag">${s.cat}</span>
+        <h3>${s.title}</h3>
+        <span class="lv">${s.lv}</span>
+      </div>
+      <div>
+        <p style="font-size:0.86rem; color:var(--mut);">${s.desc}</p>
+        <div class="chips">${s.tools.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('projectsContainer').innerHTML = DATA.projects.map((p, i) => `
+    <article class="card proj rv">
+      <div>
+        <div class="term-chrome">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span>${p.cat}</span>
+          <span class="mono" style="color:var(--blue-s); font-weight:700;">0${i + 1}</span>
+        </div>
+        <div class="proj-pad">
+          <h3>${p.title}</h3>
+          <p class="d">${p.summary}</p>
+          <div class="chips">${p.tech.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="acts">
+        <button class="btn" type="button" onclick="openModal(${i})">Detail <i class="fa-solid fa-chevron-right" style="font-size:0.7rem"></i></button>
+        <a class="btn" href="${p.repo}" target="_blank" rel="noopener" style="background:var(--blue); border-color:var(--blue);"><i class="fa-brands fa-github"></i> Repo</a>
+      </div>
+    </article>
+  `).join('');
+
+  document.getElementById('certsContainer').innerHTML = DATA.certs.map(g => `
+    <div class="card rv" style="padding:22px 26px;">
+      <h3 style="font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:14px; border-bottom:1px solid var(--line); padding-bottom:10px;">${g.group}</h3>
+      <div style="display:grid; gap:10px;">
+        ${g.items.map(it => `
+          <div style="display:flex; align-items:center; gap:10px; font-size:0.88rem; color:var(--mut);">
+            <span style="width:6px; height:6px; border-radius:50%; background:var(--blue-s); shrink-0;"></span>
+            <span>${it}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('progressBar').style.width = ((total / height) * 100) + '%';
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+
+  initTypewriter();
+  initTerminal();
+});
+
+function initTypewriter() {
+  const el = document.getElementById('roleTypewriter');
+  const roles = DATA.roles;
+  let rIdx = 0, charIdx = 0, isDeleting = false;
+
+  function type() {
+    const current = roles[rIdx];
+    if (!isDeleting) {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        isDeleting = true;
+        setTimeout(type, 2200);
+        return;
+      }
+    } else {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        isDeleting = false;
+        rIdx = (rIdx + 1) % roles.length;
+        setTimeout(type, 400);
+        return;
+      }
+    }
+    setTimeout(type, isDeleting ? 40 : 80);
+  }
+  type();
+}
+
+const modal = document.getElementById('projModal');
+function openModal(idx) {
+  const p = DATA.projects[idx];
+  document.getElementById('modalCategory').textContent = p.cat;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.summary;
+  document.getElementById('modalHighlights').innerHTML = p.hl.map(h => `<li>${h}</li>`).join('');
+  document.getElementById('modalTech').innerHTML = p.tech.map(t => `<span class="chip">${t}</span>`).join('');
+  document.getElementById('modalRepoBtn').href = p.repo;
+  modal.showModal();
+}
+document.getElementById('modalClose').onclick = () => modal.close();
+modal.onclick = (e) => { if (e.target === modal) modal.close(); };
+
+function initTerminal() {
+  const out = document.getElementById('termOutput');
+  const form = document.getElementById('termForm');
+  const inp = document.getElementById('termInput');
+  const presetsContainer = document.getElementById('termPresets');
+
+  const presets = ['help', 'whoami', 'skills', 'projects', 'ping 192.168.10.1', 'nmap -sV 192.168.56.10', 'show vlan brief', 'clear'];
+  presetsContainer.innerHTML = presets.map(cmd => `
+    <button type="button" class="term-preset-btn" onclick="autoTypeCommand('${cmd}')">
+      <i class="fa-solid fa-play" style="font-size:0.6rem; color:var(--green)"></i> ${cmd}
+    </button>
+  `).join('');
+
+  function printLog(text, className = '') {
+    const d = document.createElement('div');
+    if (className) d.className = className;
+    d.textContent = text;
+    out.appendChild(d);
+    out.scrollTop = out.scrollHeight;
+  }
+
+  printLog('======================================================\n Fidel CyberLab CLI Environment [Version 2.4.0]\n Status: Isolated Virtual Sandbox (192.168.56.0/24)\n======================================================', 'h');
+  printLog('Ketik "help" atau klik tombol preset perintah di atas untuk simulasi otomatis.');
+
+  window.execCommand = function(cmd) {
+    const raw = cmd.trim();
+    if (!raw) return;
+    printLog('$ ' + raw, 'c');
+    const lower = raw.toLowerCase();
+
+    if (lower === 'clear') {
+      out.innerHTML = '';
+      return;
+    }
+    if (lower === 'help') {
+      printLog('Perintah tersedia: whoami, skills, projects, ping <ip>, nmap -sV <ip>, show vlan brief, contact, clear', 's');
+    } else if (lower === 'whoami') {
+      printLog('Mochamad Rizky Fidel Purnama (Fidel)\nJunior Network & Cybersecurity Enthusiast\nSMK Informatika Al-Irsyad Cirebon (TJKT)');
+    } else if (lower === 'skills') {
+      printLog(DATA.skills.map(s => `[+] ${s.title}: ${s.tools.join(', ')}`).join('\n'));
+    } else if (lower === 'projects') {
+      printLog(DATA.projects.map((p, i) => `0${i+1}. ${p.title} (${p.repo})`).join('\n'));
+    } else if (lower.startsWith('ping')) {
+      printLog('PING 192.168.10.1: 64 bytes, ttl=64, time=0.42ms\n4 packets transmitted, 4 received, 0% packet loss', 's');
+    } else if (lower.startsWith('nmap')) {
+      printLog('Nmap scan report: 192.168.56.10\nPORT 22/tcp  OPEN ssh (OpenSSH 7.4)\nPORT 80/tcp  OPEN http (Apache 2.4.6)\nPORT 443/tcp OPEN ssl\nScan completed in 1.42s', 's');
+    } else if (lower.includes('vlan')) {
+      printLog('VLAN 10  VLAN_FINANCE     Fa0/5, Fa0/6\nVLAN 20  VLAN_ENGINEER    Fa0/9, Fa0/10\nVLAN 99  MGMT_TRUNK       Gi0/1 (802.1Q Trunk)', 's');
+    } else {
+      printLog('bash: command not found: ' + raw + ' (ketik "help")', 'e');
+    }
+  };
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const val = inp.value;
+    inp.value = '';
+    window.execCommand(val);
+  };
+
+  document.getElementById('clearBtn').onclick = () => { out.innerHTML = ''; };
+
+  let isTyping = false;
+  window.autoTypeCommand = function(cmd) {
+    if (isTyping) return;
+    isTyping = true;
+    inp.value = '';
+    let i = 0;
+    const timer = setInterval(() => {
+      inp.value += cmd[i];
+      i++;
+      if (i === cmd.length) {
+        clearInterval(timer);
+        setTimeout(() => {
+          window.execCommand(cmd);
+          inp.value = '';
+          isTyping = false;
+        }, 250);
+      }
+    }, 50);
+  };
+}
+
+document.getElementById('msgForm').onsubmit = (e) => {
+  e.preventDefault();
+  const name = document.getElementById('formName').value;
+  const email = document.getElementById('formEmail').value;
+  const msg = document.getElementById('formMsg').value;
+  const body = `Halo Fidel,\n\n${msg}\n\nSalam,\n${name}${email ? '\nEmail: ' + email : ''}`;
+  window.location.href = `mailto:fidelpurnama001@gmail.com?subject=${encodeURIComponent('Pesan dari ' + name)}&body=${encodeURIComponent(body)}`;
+  document.getElementById('formFeedback').textContent = 'Aplikasi email dibuka untuk mengirim pesan langsung ke Fidel.';
+};
+</script>
+</body>
+</html>
